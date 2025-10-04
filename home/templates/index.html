@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Script Kiddie</title>
+</head>
+
+<body>
+    <h1>Cross Site Scripting</h1>
+    <form method="POST" action="nameRef/">
+        {% csrf_token %}
+        <label>Name:</label>
+        <input type="text" name="name" placeholder="enter
+your name">
+        <input type="submit" value="submit">
+    </form>
+</body>
+
+</html>

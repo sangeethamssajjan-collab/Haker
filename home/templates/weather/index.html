@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px 0 rgba(31,38,135,0.2);
+            padding: 32px 32px 24px 32px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 24px;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+            justify-content: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #bdbdbd;
+            border-radius: 6px;
+            font-size: 16px;
+            width: 60%;
+        }
+        button {
+            padding: 10px 18px;
+            background: #0078d7;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background: #005fa3;
+        }
+        .weather-result {
+            background: #e3f0ff;
+            border-radius: 10px;
+            padding: 24px 20px 16px 20px;
+            margin-top: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .weather-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 10px;
+        }
+        .weather-header img {
+            width: 64px;
+            height: 64px;
+        }
+        .weather-header .main {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #0078d7;
+        }
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px 20px;
+            margin-top: 10px;
+        }
+        .weather-details div {
+            font-size: 1.05em;
+            color: #333;
+        }
+        .error {
+            color: #d8000c;
+            background: #ffd2d2;
+            border-radius: 6px;
+            padding: 10px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Weather App</h2>
+        <form method="get">
+            <input type="text" id="city" name="city" placeholder="Enter city name" required value="{{ request.GET.city }}">
+            <button type="submit">Get Weather</button>
+        </form>
+        {% if weather.error %}
+            <div class="error">{{ weather.error }}</div>
+        {% elif weather.city %}
+            <div class="weather-result">
+                <div class="weather-header">
+                    <img src="https://openweathermap.org/img/wn/{{ weather.icon }}@4x.png" alt="Weather icon">
+                    <div>
+                        <div class="main">{{ weather.city }}</div>
+                        <div style="color:#555;">{{ weather.description }}</div>
+                    </div>
+                </div>
+                <div class="weather-details">
+                    <div><strong>Temperature:</strong> {{ weather.temperature }}°C</div>
+                    <div><strong>Feels Like:</strong> {{ weather.feels_like|default:'-' }}°C</div>
+                    <div><strong>Min Temp:</strong> {{ weather.temp_min|default:'-' }}°C</div>
+                    <div><strong>Max Temp:</strong> {{ weather.temp_max|default:'-' }}°C</div>
+                    <div><strong>Humidity:</strong> {{ weather.humidity|default:'-' }}%</div>
+                    <div><strong>Pressure:</strong> {{ weather.pressure|default:'-' }} hPa</div>
+                    <div><strong>Wind Speed:</strong> {{ weather.wind_speed|default:'-' }} m/s</div>
+                    <div><strong>Clouds:</strong> {{ weather.clouds|default:'-' }}%</div>
+                    <div><strong>Country:</strong> {{ weather.country|default:'-' }}</div>
+                    <div><strong>Sunrise:</strong> {{ weather.sunrise|default:'-' }}</div>
+                    <div><strong>Sunset:</strong> {{ weather.sunset|default:'-' }}</div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="footer">Powered by <a href="https://openweathermap.org/" target="_blank">OpenWeather</a></div>
+    </div>
+</body>
+</html>
